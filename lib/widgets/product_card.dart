@@ -1,0 +1,143 @@
+import 'package:flutter/material.dart';
+import 'package:responsive_app/model/product_model.dart';
+
+class ProductCard extends StatelessWidget {
+  const ProductCard({super.key, required this.product, 
+  required this.onTap , 
+  required this.onAddToCart
+  });
+
+  final ProductModel product;
+  final Function onTap;
+  final Function onAddToCart;
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final bool isCompact = constraints.maxWidth < 185;
+        final double titleFont = isCompact ? 16 : 18;
+        final double topNameFont = isCompact ? 15 : 20;
+        final double starSize = isCompact ? 13 : 18;
+        final double reviewFont = isCompact ? 12 : 16;
+        final double priceFont = isCompact ? 18 : 20;
+        final double addButtonSize = isCompact ? 34 : 42;
+
+        return Container(
+          decoration: BoxDecoration(
+            color: const Color(0xFF2F2F2F),
+            borderRadius: BorderRadius.circular(24),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    onTap();
+                  },
+                  child: Image.asset(
+                    product.image[0],
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      product.name,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: titleFont,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            spacing: 4,
+                            runSpacing: 2,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: List.generate(
+                                  5,
+                                  (index) => Icon(
+                                    index < product.rating
+                                        ? Icons.star
+                                        : Icons.star_border,
+                                    color: const Color(0xFFE9B12B),
+                                    size: starSize,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                product.numreviews.toString(),
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: const Color(0xFFA2A2A2),
+                                  fontSize: reviewFont,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              '\$${product.price.toStringAsFixed(0)}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w800,
+                                fontSize: priceFont,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        GestureDetector(
+                          onTap: () {
+                            onAddToCart();
+                          },
+                          child: Container(
+                            height: addButtonSize,
+                            width: addButtonSize,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF2E8B57),
+                              borderRadius: BorderRadius.circular(13),
+                            ),
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: isCompact ? 22 : 24,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
