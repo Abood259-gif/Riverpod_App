@@ -1,10 +1,30 @@
-# responsive_app
+# 📱 Responsive E-Commerce App
 
-# 📱 Responsive Flutter Chat, Dashboard & UI Widgets
+A modern, fully responsive Flutter e-commerce application focusing on clean architecture, performance, and a seamless user experience.
 
-A clean dark-themed Flutter application featuring a responsive Chat Screen, Dashboard Screen, Login Screen, Products Screen, Profile Screen, and a custom 404 page, all built with reusable widgets and designed for Mobile and Tablet devices.
+## ✨ Key Features
 
-## ✨ Features
-- 📐 **Responsive Design:** Seamlessly adapts to Mobile & Tablet screen sizes.
-- 💬 **Interactive Chat:** Dynamic messaging with smooth auto-scroll to latest messages.
-- 🎨 **Dark UI:** Custom color gradients and pixel-perfect design.
+* 🚀 **Zero `setState`:** State management is handled entirely and cleanly by **Riverpod**.
+* 📱 **Responsive UI:** Adapts beautifully to various screen sizes using `LayoutBuilder`.
+* ⏳ **Skeleton Loading:** Smooth data-fetching transitions using **Skeletonizer**.
+* 🛒 **Dynamic Cart & Filtering:** Fast category filtering and interactive cart management.
+* 🧭 **Routing:** Declarative and safe navigation with **GoRouter**.
+
+## 🛠️ Tech Stack
+
+* **Flutter** 
+* **Riverpod** (State Management)
+* **Skeletonizer** (UI Loading State)
+* **GoRouter** (Navigation)
+
+## 🚀 Getting Started
+
+```bash
+# Clone the repository
+git clone <YOUR_REPO_URL_HERE>
+
+# Get dependencies
+flutter pub get
+
+# Run the app
+flutter run
