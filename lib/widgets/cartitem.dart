@@ -47,7 +47,7 @@ final String image;
           // 2. Product Image
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
-            child: Image.asset(
+            child: Image.network(
               image , 
               width: 64,
               height: 64,
