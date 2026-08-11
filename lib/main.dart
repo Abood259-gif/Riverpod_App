@@ -6,9 +6,7 @@ import 'package:responsive_app/state/cart_sate.dart';
 
 void main() {
   runApp(ProviderScope(
-    child: ChangeNotifierProvider(
-      create: (BuildContext context) => CartProvider(),
-    child: const MainApp()),
+    child: const MainApp(),
   ));
 }
 

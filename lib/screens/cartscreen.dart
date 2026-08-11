@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart';
 import 'package:responsive_app/Providers/cartprovider.dart';
-import 'package:responsive_app/model/product_model.dart';
-import 'package:responsive_app/state/cart_sate.dart';
 import 'package:responsive_app/widgets/cartitem.dart';
-import 'package:responsive_app/widgets/homeshell.dart';
 
 class CartscreenScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cartproviderr = ref.watch(cartprovider.notifier);
+    final cartproviderr = ref.read(cartprovider.notifier);
+    final cartItems = ref.watch(cartprovider);
     print('Building CartScreen');
     return Scaffold(
       backgroundColor: const Color(0xFF212121),
@@ -38,14 +35,15 @@ class CartscreenScreen extends ConsumerWidget {
                           true, // Allows the container height to grow with item count
                       physics:
                           const NeverScrollableScrollPhysics(), // Disables inner scrolling
-                      itemCount: ref.watch(cartprovider).length,
+                      itemCount: cartItems.length,
                       itemBuilder: (context, index) {
+                        final item = cartItems[index];
                         return CartItemTile(
-                          isSelected: ref.watch(cartprovider)[index].isSelected,
-                          title: ref.watch(cartprovider)[index].product.name,
+                          isSelected: item.isSelected,
+                          title: item.product.name,
                           price:
-                              '\$${ref.watch(cartprovider)[index].product.price.toStringAsFixed(2)}',
-                          quantity: ref.watch(cartprovider)[index].quantity,
+                              '\$${item.product.price.toStringAsFixed(2)}',
+                          quantity: item.quantity,
                           onIncrement: () =>
                               cartproviderr.increaseQuantity(index),
                           onDecrement: () =>
@@ -53,8 +51,7 @@ class CartscreenScreen extends ConsumerWidget {
                           onSelectedChanged: (bool? value) {
                             cartproviderr.toggleSelection(index);
                           },
-                          image: ref
-                              .watch(cartprovider)[index]
+                          image:item
                               .product
                               .image[0], // Assuming the first image is used
                         );

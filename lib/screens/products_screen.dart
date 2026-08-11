@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:responsive_app/Providers/filterproductprovider.dart';
 import 'package:responsive_app/Providers/proudctprovider.dart';
 import 'package:responsive_app/Providers/cartprovider.dart';
 import 'package:responsive_app/Providers/select_category_notifier.dart';
@@ -12,6 +13,20 @@ import 'package:skeletonizer/skeletonizer.dart';
 class ProductsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen<AsyncValue<List<ProductModel>>>(productprovider, (
+      previous,
+      next,
+    ) {
+      if (next.hasError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: ${next.error}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    });
+    final filterdProducts = ref.watch(filterProudctProvider);
     final Category = ref.watch(selectCategoryProvider);
     final prductasyncValue = ref.watch(productprovider);
     final cartproviderr = ref.watch(cartprovider.notifier);
@@ -141,8 +156,26 @@ class ProductsScreen extends ConsumerWidget {
                           itemCount: categorys.length,
                         );
                       },
-                      loading: () =>
-                          const Center(child: CircularProgressIndicator()),
+                      loading: () => Skeletonizer(
+                        child: SizedBox(
+                          height: 48,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF2F2F2F),
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(width: 10),
+                            itemCount: 5,
+                          ),
+                        ),
+                      ),
                       error: (error, stackTrace) => Center(
                         child: Text(
                           'Error loading categories: $error',
@@ -155,13 +188,8 @@ class ProductsScreen extends ConsumerWidget {
                   Expanded(
                     child: prductasyncValue.when(
                       data: (productlist) {
-                        final filteredProducts = _filteredProducts(
-                          _selectedCategoryIndex,
-                          categoryes ?? [],
-                          productlist,
-                        );
                         return GridView.builder(
-                          itemCount: filteredProducts.length,
+                          itemCount: filterdProducts.length,
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: columns,
@@ -170,8 +198,7 @@ class ProductsScreen extends ConsumerWidget {
                                 childAspectRatio: isNarrow ? 0.64 : 0.68,
                               ),
                           itemBuilder: (context, index) {
-                            final ProductModel product =
-                                filteredProducts[index];
+                            final ProductModel product = filterdProducts[index];
                             return ProductCard(
                               onAddToCart: () {
                                 print(
@@ -211,9 +238,11 @@ class ProductsScreen extends ConsumerWidget {
                                     'اسم منتج وهمي للعرض فقط', // طول النص يحدد طول شريط الـ Skeleton
                                 description: 'وصف وهمي',
                                 price: 99.99,
-                                image: [''],
-                                numreviews: 0,
-                                rating: 0,
+                                image: [
+                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYkMEI2jPwLYDriC7k3_GPAr9-rOcYgYoz1uatrO3jKA&s',
+                                ],
+                                slug: 'slug',
+                                categoryName: 'فئة وهمية',
                               ),
                             );
                           },
@@ -226,6 +255,7 @@ class ProductsScreen extends ConsumerWidget {
                             const Text(
                               'Failed to load products.',
                               style: TextStyle(
+                                
                                 color: Colors.white,
                                 fontSize: 18,
                               ),
@@ -250,16 +280,4 @@ class ProductsScreen extends ConsumerWidget {
       ),
     );
   }
-}
-
-List<ProductModel> _filteredProducts(
-  int _selectedCategoryIndex,
-  List<String> _categories,
-  List<ProductModel> products,
-) {
-  if (_selectedCategoryIndex == 0) {
-    return products;
-  }
-  final String selected = _categories[_selectedCategoryIndex];
-  return products.where((product) => product.description == selected).toList();
 }

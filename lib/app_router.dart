@@ -32,7 +32,7 @@ final router = GoRouter(
       path: AppRouter.productDetailsRoute,
       builder: (context, state) {
         final String? id = state.pathParameters['id'];
-        return ProductDetailsPage(id: int.parse(id!));
+        return ProductDetailsPage(productid: int.parse(id!));
       },
     ),
     ShellRoute(

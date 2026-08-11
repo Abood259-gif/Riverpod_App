@@ -35,11 +35,11 @@ class ProductCard extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     onTap();
-                  },
-                  child: Image.asset(
+                  },    
+                  child: Image.network(
                     product.image[0],
-                    fit: BoxFit.cover,
-                    width: double.infinity,
+                    fit: BoxFit.cover,  
+                    width: double.infinity,    
                   ),
                 ),
               ),
@@ -59,40 +59,7 @@ class ProductCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            spacing: 4,
-                            runSpacing: 2,
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: List.generate(
-                                  5,
-                                  (index) => Icon(
-                                    index < product.rating
-                                        ? Icons.star
-                                        : Icons.star_border,
-                                    color: const Color(0xFFE9B12B),
-                                    size: starSize,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                product.numreviews.toString(),
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: const Color(0xFFA2A2A2),
-                                  fontSize: reviewFont,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                    
                     const SizedBox(height: 10),
                     Row(
                       children: [
