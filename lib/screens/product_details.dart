@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:responsive_app/Providers/cartprovider.dart';
 import 'package:responsive_app/Providers/productdetailsprovider.dart';
 import 'package:responsive_app/service/product_data.dart';
 import 'package:responsive_app/model/product_model.dart';
@@ -29,6 +30,7 @@ class ProductDetailsPage extends ConsumerWidget {
         );
       }
     });
+    final cartproviderr = ref.read(cartprovider.notifier);
     final product = ref.watch(productselectedprovider(productid));
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 17, 18, 25),
@@ -151,7 +153,13 @@ class ProductDetailsPage extends ConsumerWidget {
                     SizedBox(height: constraints.maxHeight * 0.02),
                     ElevatedButton(
                       onPressed: () {
-                        // Handle "Add to Cart" button press
+                       cartproviderr.addProduct(productt);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('${productt.name} added to cart!'),
+                            backgroundColor: Colors.green,
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF23C563),
