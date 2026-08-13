@@ -5,6 +5,7 @@ import 'package:responsive_app/screens/product_details.dart';
 import 'package:responsive_app/screens/products_screen.dart';
 import 'package:responsive_app/screens/not_found_screen.dart';
 import 'package:responsive_app/screens/profile_screen.dart';
+import 'package:responsive_app/screens/signup_screen.dart';
 import 'package:responsive_app/widgets/homeshell.dart';
 
 class AppRouter {
@@ -14,6 +15,7 @@ class AppRouter {
   static String productDetailsRoute = '/details/:id';
   static String notFoundRoute = '/notfound';
   static String cartRoute = '/home/cart';
+  static String signupRoute = '/signup';
 }
 
 bool isLoggedIn = true;
@@ -27,6 +29,10 @@ final router = GoRouter(
     GoRoute(
       path: AppRouter.loginRoute,
       builder: (context, state) => const LoginScreen(),
+    ),
+    GoRoute(
+      path: AppRouter.signupRoute,
+      builder: (context, state) => const SignUpScreen(),
     ),
     GoRoute(
       path: AppRouter.productDetailsRoute,

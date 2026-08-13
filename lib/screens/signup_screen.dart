@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -12,23 +13,25 @@ import 'package:responsive_app/widgets/login_section_divider.dart';
 import 'package:responsive_app/widgets/login_social_button.dart';
 import 'package:responsive_app/widgets/login_text_field.dart';
 
-
-
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _avatarController = TextEditingController();
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _avatarController.dispose();
     super.dispose();
   }
 
@@ -41,6 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
           final bool isCompact = constraints.maxWidth < 460;
           final bool isVeryNarrow = constraints.maxWidth < 360;
           final double maxCardWidth = constraints.maxWidth > 900 ? 600 : 540;
+
           return SafeArea(
             child: Center(
               child: SingleChildScrollView(
@@ -70,56 +74,39 @@ class _LoginScreenState extends State<LoginScreen> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             LoginHeader(
-                              title: 'Welcome back',
-                              subtitle: 'Sign in to your account',
-                              icon: Icons.shopping_bag_outlined,
+                              title: 'Create account',
+                              subtitle: 'Sign up to get started',
+                              icon: Icons.person_add_outlined,
                               boxSize: isCompact ? 84 : 96,
                               iconSize: isCompact ? 38 : 44,
                               titleFontSize: isCompact ? 38 : 52,
                               subtitleFontSize: isCompact ? 16 : 18,
                             ),
-                            SizedBox(height: isCompact ? 28 : 34),
+                            SizedBox(height: isCompact ? 24 : 30),
+                            LoginTextField(
+                              label: 'Full Name',
+                              hintText: 'Nicolas',
+                              controller: _nameController,
+                            ),
+                            const SizedBox(height: 18),
                             LoginTextField(
                               label: 'Email address',
                               hintText: 'you@example.com',
                               keyboardType: TextInputType.emailAddress,
                               controller: _emailController,
                             ),
-                            const SizedBox(height: 22),
-                            Row(
-                              children: [
-                                const Text(
-                                  'Password',
-                                  style: TextStyle(
-                                    color: Color(0xFFB0B0B0),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                const Spacer(),
-                                TextButton(
-                                  onPressed: () {},
-                                  style: TextButton.styleFrom(
-                                    foregroundColor: const Color(0xFF2F66E4),
-                                    padding: EdgeInsets.zero,
-                                    minimumSize: Size.zero,
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                  ),
-                                  child: Text(
-                                    'Forgot password?',
-                                    style: TextStyle(
-                                      fontSize: isVeryNarrow ? 14 : 16,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: 18),
                             LoginTextField(
+                              label: 'Password',
                               hintText: '••••••••',
                               controller: _passwordController,
                               isPassword: true,
+                            ),
+                            const SizedBox(height: 18),
+                            LoginTextField(
+                              label: 'Avatar URL (Optional)',
+                              hintText: 'https://picsum.photos/800',
+                              controller: _avatarController,
                             ),
                             const SizedBox(height: 28),
                             if (state is AuthLoading)
@@ -130,22 +117,26 @@ class _LoginScreenState extends State<LoginScreen> {
                               )
                             else
                               LoginPrimaryButton(
-                                text: 'Sign in',
+                                text: 'Sign up',
                                 onPressed: () {
+                                  final name = _nameController.text.trim();
                                   final email = _emailController.text.trim();
                                   final password = _passwordController.text.trim();
+                                  final avatar = _avatarController.text.trim();
 
-                                  if (email.isNotEmpty && password.isNotEmpty) {
+                                  if (name.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
                                     context.read<AuthBloc>().add(
-                                          LoginSubmitted(
+                                          SignUpSubmitted(
+                                            name: name,
                                             email: email,
                                             password: password,
+                                            avatar: avatar.isEmpty ? null : avatar,
                                           ),
                                         );
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text('Please enter both email and password'),
+                                        content: Text('Please fill in all required fields'),
                                       ),
                                     );
                                   }
@@ -202,12 +193,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             const SizedBox(height: 30),
                             Center(
                               child: GestureDetector(
-                                onTap: () {
-                                  context.push(AppRouter.signupRoute);
-                                },
+                                onTap: () => context.go(AppRouter.loginRoute),
                                 child: Text.rich(
                                   TextSpan(
-                                    text: 'Don\'t have an account? ',
+                                    text: 'Already have an account? ',
                                     style: const TextStyle(
                                       color: Color(0xFFA0A0A0),
                                       fontSize: 16,
@@ -215,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                     children: const [
                                       TextSpan(
-                                        text: 'Sign up',
+                                        text: 'Sign in',
                                         style: TextStyle(
                                           color: Color(0xFF2F66E4),
                                           fontWeight: FontWeight.w700,
