@@ -15,7 +15,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LogoutSubmitted>(_onLogoutSubmitted);
   }
 
-  // 1. معالجة فحص البريد
+  
   Future<void> _onCheckEmailSubmitted(
     
     CheckEmailSubmitted event,
@@ -33,7 +33,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  // 2. معالجة إنشاء حساب جديد
+
   Future<void> _onSignUpSubmitted(
     SignUpSubmitted event,
     Emitter<AuthState> emit,
@@ -52,7 +52,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  // 3. معالجة تسجيل الدخول
+  
   Future<void> _onLoginSubmitted(
     LoginSubmitted event,
     Emitter<AuthState> emit,
@@ -69,7 +69,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  // 4. معالجة تسجيل الخروج
+
   Future<void> _onLogoutSubmitted(
     LogoutSubmitted event,
     Emitter<AuthState> emit,
