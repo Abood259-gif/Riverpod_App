@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           );
                         } else if (state is AuthAuthenticated) {
-                          context.go(AppRouter.profileRoute);
+                          context.go(AppRouter.productsRoute);
                         }
                       },
                       builder: (context, state) {

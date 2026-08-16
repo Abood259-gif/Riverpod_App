@@ -53,7 +53,7 @@ class CartscreenScreen extends ConsumerWidget {
                           },
                           image:item
                               .product
-                              .image[0], // Assuming the first image is used
+                              .images[0], // Assuming the first image is used
                         );
                       },
                     ),

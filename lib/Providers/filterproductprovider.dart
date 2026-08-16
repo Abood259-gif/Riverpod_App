@@ -16,6 +16,6 @@ if (categoryselected.isEmpty ||
   }
 
   return products.where(
-    (item) => item.categoryName == categoryselected[categoryindex],
+    (item) => item.category.name == categoryselected[categoryindex],
   ).toList();
 });

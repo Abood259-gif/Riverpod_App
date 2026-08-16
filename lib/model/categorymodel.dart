@@ -1,4 +1,3 @@
-
 /*
 {
     "id": 1,
@@ -8,26 +7,22 @@
   }
 */
 
+import 'package:freezed_annotation/freezed_annotation.dart';
+part 'categorymodel.freezed.dart';
+part 'categorymodel.g.dart';
 
-class CategoryModel {
-  final int id;
-  final String name;
-  final String slug;
-  final String image;
+@freezed
+ abstract class CategoryModel with _$CategoryModel {
+  const factory CategoryModel({
+    required int id,
+    required String name,
+    required String slug,
+    required String image,
+  }) = _CategoryModel;
 
-  CategoryModel({
-    required this.id,
-    required this.name,
-    required this.slug,
-    required this.image,
-  });
+  factory CategoryModel.fromJson(Map<String, dynamic> json) =>
+      _$CategoryModelFromJson(json);
 
-  factory CategoryModel.fromJson(Map<String, dynamic> json) {
-    return CategoryModel(
-      id: json['id'],
-      name: json['name'],
-      slug: json['slug'],
-      image: json['image'],
-    );
-  }
+ 
+  
 }

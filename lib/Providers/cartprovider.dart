@@ -13,8 +13,12 @@ class Cartprovider extends Notifier<List<CartItemModel>> {
     if (index == -1) {
       state = [...state, CartItemModel(product: product)];
     } else {
-      state[index].quantity++;
-      state = [...state];
+      state = state.map((item) {
+        if (item.product == product) {
+          return item.copyWith(quantity: item.quantity + 1);
+        }
+        return item;
+      }).toList();
     }
   }
 
@@ -29,20 +33,23 @@ class Cartprovider extends Notifier<List<CartItemModel>> {
   }
 
   void increaseQuantity(int index) {
-   state[index].quantity++;
-    state = [...state];
+    final updatelist = [...state];
+   updatelist[index] =  updatelist[index].copyWith(quantity: updatelist[index].quantity + 1);
+    state = updatelist;
   }
 
   void decreaseQuantity(int index) {
     if (state[index].quantity > 1) {
-      state[index].quantity--;
-      state = [...state];
+      final updatelist = [...state];
+   updatelist[index] =  updatelist[index].copyWith(quantity: updatelist[index].quantity - 1);
+    state = updatelist;
     }
   }
 
   void toggleSelection(int index) {
-    state[index].isSelected = !state[index].isSelected;
-   state = [...state];
+    final updatelist = [...state];
+   updatelist[index] =  updatelist[index].copyWith(isSelected: !updatelist[index].isSelected);
+    state = updatelist;
   }
 
   void removeItem(int index) {
@@ -50,6 +57,7 @@ class Cartprovider extends Notifier<List<CartItemModel>> {
     state = [...state];
   }
 }
+
 final cartprovider = NotifierProvider<Cartprovider, List<CartItemModel>>(() {
   return Cartprovider();
 });

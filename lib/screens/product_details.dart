@@ -73,14 +73,14 @@ class ProductDetailsPage extends ConsumerWidget {
                           height: constraints.maxHeight * 0.4,
                           child: CustemPageview(
                             pageController: _pageController,
-                            productImages: productt.image,
+                            productImages: productt.images,
                             constraints: constraints,
                           ),
                         ),
                         SizedBox(height: constraints.maxHeight * 0.02),
                         SmoothPageIndicator(
                           controller: _pageController,
-                          count: productt.image.length,
+                          count: productt.images.length,
                           effect: WormEffect(
                             dotColor: const Color.fromARGB(255, 135, 135, 135),
                             activeDotColor: Colors.green,

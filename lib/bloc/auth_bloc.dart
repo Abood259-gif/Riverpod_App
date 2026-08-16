@@ -21,15 +21,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     CheckEmailSubmitted event,
     Emitter<AuthState> emit,
   ) async {
-    emit(AuthLoading());
+    emit(AuthState.authLoading());
     try {
       final isAvailable = await authRepository.checkEmailAvailability(event.email);
-      emit(EmailCheckSuccess(
+      emit(AuthState.emailCheckSuccess(
         email: event.email,
         isAvailable: isAvailable,
       ));
     } catch (e) {
-      emit(AuthFailure(e.toString().replaceAll('Exception: ', '')));
+      emit(AuthState.authFailure(e.toString().replaceAll('Exception: ', '')));
     }
   }
 
@@ -38,7 +38,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     SignUpSubmitted event,
     Emitter<AuthState> emit,
   ) async {
-    emit(AuthLoading());
+    emit(AuthState.authLoading());
     try {
       final user = await authRepository.createUser(
         name: event.name,
@@ -46,9 +46,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         password: event.password,
         avatar: event.avatar ?? 'https://picsum.photos/800',
       );
-      emit(AuthAuthenticated(user));
+      emit(AuthState.authAuthenticated(user));
     } catch (e) {
-      emit(AuthFailure(e.toString().replaceAll('Exception: ', '')));
+      emit(AuthState.authFailure(e.toString().replaceAll('Exception: ', '')));
     }
   }
 
@@ -57,15 +57,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     LoginSubmitted event,
     Emitter<AuthState> emit,
   ) async {
-    emit(AuthLoading());
+    emit(AuthState.authLoading());
     try {
       final user = await authRepository.login(
         email: event.email,
         password: event.password,
       );
-      emit(AuthAuthenticated(user));
+      emit(AuthState.authAuthenticated(user));
     } catch (e) {
-      emit(AuthFailure(e.toString().replaceAll('Exception: ', '')));
+      emit(AuthState.authFailure(e.toString().replaceAll('Exception: ', '')));
     }
   }
 
@@ -74,7 +74,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     LogoutSubmitted event,
     Emitter<AuthState> emit,
   ) async {
-    emit(AuthLoading());
-    emit(AuthUnauthenticated());
+    emit(AuthState.authLoading());
+    emit(AuthState.authUnauthenticated());
   }
 }

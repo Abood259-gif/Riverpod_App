@@ -1,35 +1,22 @@
-
-
-import 'package:meta/meta.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:responsive_app/model/usermodel.dart';
 
+part 'auth_state.freezed.dart';
 
-@immutable
-sealed class AuthState {}
+@freezed
+sealed class AuthState with _$AuthState {
+  const factory AuthState.authInitial() = AuthInitial;
 
-final class AuthInitial extends AuthState {}
+  const factory AuthState.authLoading() = AuthLoading;
 
-final class AuthLoading extends AuthState {}
+  const factory AuthState.emailCheckSuccess({
+    required String email,
+    required bool isAvailable,
+  }) = EmailCheckSuccess;
 
+  const factory AuthState.authAuthenticated(UserModel user) = AuthAuthenticated;
 
-final class EmailCheckSuccess extends AuthState {
-  final String email;
-  final bool isAvailable; 
+  const factory AuthState.authUnauthenticated() = AuthUnauthenticated;
 
-  EmailCheckSuccess({required this.email, required this.isAvailable});
-}
-
-
-final class AuthAuthenticated extends AuthState {
-  final UserModel user;
-  AuthAuthenticated(this.user);
-}
-
-
-final class AuthUnauthenticated extends AuthState {}
-
-
-final class AuthFailure extends AuthState {
-  final String errorMessage;
-  AuthFailure(this.errorMessage);
+  const factory AuthState.authFailure(String errorMessage) = AuthFailure;
 }

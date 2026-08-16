@@ -37,7 +37,7 @@ class ProductCard extends StatelessWidget {
                     onTap();
                   },    
                   child: Image.network(
-                    product.image[0],
+                    product.images[0],
                     fit: BoxFit.cover,  
                     width: double.infinity,    
                   ),

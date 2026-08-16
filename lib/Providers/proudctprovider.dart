@@ -14,7 +14,7 @@ class Productprovider extends AsyncNotifier<List<ProductModel>> {
   }
   Future<List<ProductModel>> featch_data() async{
     final List<ProductModel> data = await Appservice.featch_all_products() ;
-    print('data from provider : $data');
+    print('product data : ${data.length}');
     return data ;
   }
 

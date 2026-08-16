@@ -1,15 +1,13 @@
-
-
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:responsive_app/model/product_model.dart';
 
-class CartItemModel {
- ProductModel product;
-  int quantity;
-  bool isSelected;
+part 'cartitemmodel.freezed.dart';
 
-  CartItemModel({
-   required this.product,
-    this.quantity = 1,
-    this.isSelected = false,
-  });
+@freezed
+abstract  class CartItemModel with _$CartItemModel {
+  const factory CartItemModel({
+    required ProductModel product,
+    @Default(1) int quantity,
+    @Default(false) bool isSelected,
+  }) = _CartItemModel;
 }

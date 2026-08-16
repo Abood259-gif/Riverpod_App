@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:responsive_app/app_router.dart';
 import 'package:responsive_app/model/cartitemmodel.dart';
 import 'package:responsive_app/model/product_model.dart';
-import 'package:responsive_app/state/cart_sate.dart';
 
 class Homeshell extends StatefulWidget {
   const Homeshell({super.key, required this.child});
@@ -14,8 +13,6 @@ class Homeshell extends StatefulWidget {
 }
 
 class HomeshellState extends State<Homeshell> {
- 
-
   @override
   Widget build(BuildContext context) {
     final String curLocation = GoRouterState.of(context).uri.path;
@@ -24,7 +21,7 @@ class HomeshellState extends State<Homeshell> {
         : curLocation == AppRouter.cartRoute
         ? 2
         : 0;
-
+    print(curLocation);
     return Scaffold(
       backgroundColor: const Color(0xFF212121),
       body: widget.child,

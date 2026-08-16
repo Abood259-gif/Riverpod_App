@@ -6,6 +6,7 @@ import 'package:responsive_app/Providers/proudctprovider.dart';
 import 'package:responsive_app/Providers/cartprovider.dart';
 import 'package:responsive_app/Providers/select_category_notifier.dart';
 import 'package:responsive_app/Providers/selected_category_index.dart';
+import 'package:responsive_app/model/categorymodel.dart';
 import 'package:responsive_app/model/product_model.dart';
 import 'package:responsive_app/widgets/product_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -238,11 +239,9 @@ class ProductsScreen extends ConsumerWidget {
                                     'اسم منتج وهمي للعرض فقط', // طول النص يحدد طول شريط الـ Skeleton
                                 description: 'وصف وهمي',
                                 price: 99.99,
-                                image: [
-                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYkMEI2jPwLYDriC7k3_GPAr9-rOcYgYoz1uatrO3jKA&s',
-                                ],
+                                images: ['https://cdn-icons-png.flaticon.com/512/5821/5821423.png'], // صورة وهمية
                                 slug: 'slug',
-                                categoryName: 'فئة وهمية',
+                                category: CategoryModel(id: 1, name: 'فئة وهمية', slug: 'slug', image: ''),
                               ),
                             );
                           },

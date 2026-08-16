@@ -1,61 +1,32 @@
 import 'package:flutter/foundation.dart';
-/*
- {
-    "id": 4,
-    "title": "Handmade Fresh Table",
-    "slug": "handmade-fresh-table",
-    "price": 687,
-    "description": "Andy shoes are designed to keeping in...",
-    "category": {
-      "id": 5,
-      "name": "Others",
-      "image": "https://placehold.co/600x400",
-      "slug": "others"
-    },
-    "images": [
-      "https://placehold.co/600x400",
-      "https://placehold.co/600x400",
-      "https://placehold.co/600x400"
-    ]
-  }
-*/
-class ProductModel   {
-  final int id;
-    final String name;
-    final String slug;
-    final double price;
-    final String description;
-    final List<String> image;
-    final String categoryName;
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:responsive_app/model/categorymodel.dart';
+part 'product_model.freezed.dart';
+part 'product_model.g.dart';
 
-  ProductModel({
-    required this.id,
-    required this.name,
-    required this.slug,
-    required this.price,
-    required this.description,
-    required this.image,
-    required this.categoryName,
-  });
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) {
-    List<String> parsedImages = [];
-  try {
-    if (json['images'] != null) {
-      parsedImages = List<String>.from(json['images'].map((x) => x.toString()));
-    }
-  } catch (e) {
-    parsedImages = ['https://placehold.co/600x400']; // صورة افتراضية عند الفشل
-  }
-  
-    return ProductModel(
-      id: json['id'],
-      name: json['title'],
-      slug: json['slug'],
-      price: (json['price'] as num).toDouble(),
-      description: json['description'],
-      image: List<String>.from(json['images']),
-      categoryName: json['category']['name'],
-    );
-  }
+List<String> _parseImages(dynamic rawImages) {
+  if (rawImages == null || rawImages is! List) return ['https://placehold.co/600x400'];
+  return rawImages
+      .where((item) => item != null)
+      .map((item) => item.toString())
+      .toList();
+}
+
+@freezed
+ abstract class ProductModel with _$ProductModel   {
+  const factory ProductModel({
+    required int id ,
+    required String name,
+    required String slug,
+    required double price,
+  required   String description,
+   @JsonKey(fromJson: _parseImages) @Default([]) List<String> images,
+    required CategoryModel category,
+  }) = _ProductModel;
+
+
+
+
+factory ProductModel.fromJson(Map<String, dynamic> json) => _$ProductModelFromJson(json);
 }

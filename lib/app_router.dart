@@ -52,7 +52,7 @@ final router = GoRouter(
         ),
         GoRoute(
           path: AppRouter.profileRoute,
-          builder: (context, state) => const ProfileScreen(),
+          builder: (context, state) =>  ProfileScreen(),
         ),
         GoRoute(
           path: AppRouter.cartRoute,
